@@ -16,21 +16,6 @@
       "estimatedTime": 60,
       "focusDirectory": "",
       "colorMode": "fileTypes",
-      "highlightLayers": [
-        {
-          "id": "top-level-areas",
-          "name": "Top-Level Areas",
-          "color": "#8b5cf6",
-          "items": [
-            { "path": "server", "type": "directory" },
-            { "path": "apps", "type": "directory" },
-            { "path": "packages", "type": "directory" }
-          ],
-          "opacity": 0.55,
-          "renderStrategy": "border",
-          "borderWidth": 3
-        }
-      ],
       "resources": [
         {
           "title": "Project README",
