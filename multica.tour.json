@@ -1,0 +1,447 @@
+{
+  "id": "multica-codebase-tour",
+  "title": "Multica Codebase Tour",
+  "description": "A guided walkthrough of Multica — an AI-native task management platform with a Go backend, a Next.js frontend, and shared headless packages designed for multi-platform reuse.",
+  "version": "1.0.0",
+  "audience": "New Developers & AI Assistants",
+  "prerequisites": [
+    "Familiarity with Go and TypeScript",
+    "Basic understanding of monorepos and React"
+  ],
+  "steps": [
+    {
+      "id": "step-1-welcome",
+      "title": "Welcome to Multica",
+      "description": "Multica is an AI-native task management platform — like Linear, but with AI agents as first-class citizens. Agents can be assigned issues, create them, comment, and change status. The codebase is split into three highlighted areas: a Go backend, a Next.js web app, and shared TypeScript packages built for multi-platform reuse.",
+      "estimatedTime": 60,
+      "focusDirectory": "",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "top-level-areas",
+          "name": "Top-Level Areas",
+          "color": "#8b5cf6",
+          "items": [
+            { "path": "server", "type": "directory" },
+            { "path": "apps", "type": "directory" },
+            { "path": "packages", "type": "directory" }
+          ],
+          "opacity": 0.55,
+          "renderStrategy": "border",
+          "borderWidth": 3
+        }
+      ],
+      "resources": [
+        {
+          "title": "Project README",
+          "url": "README.md",
+          "type": "documentation"
+        },
+        {
+          "title": "CLAUDE.md — AI agent guide",
+          "url": "CLAUDE.md",
+          "type": "documentation"
+        }
+      ]
+    },
+    {
+      "id": "step-2-monorepo-packages",
+      "title": "Shared Package Architecture",
+      "description": "The frontend is a monorepo with three shared packages plus a base config. Dependencies flow in one direction: views builds on core and ui, while core and ui stay independent of each other. No package leaks framework-specific imports, which is what keeps the business logic reusable across web, desktop, and mobile clients.",
+      "estimatedTime": 90,
+      "focusDirectory": "packages",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "package-core",
+          "name": "@multica/core (headless logic)",
+          "color": "#3b82f6",
+          "items": [
+            { "path": "packages/core", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border",
+          "borderWidth": 3
+        },
+        {
+          "id": "package-ui",
+          "name": "@multica/ui (atomic components)",
+          "color": "#10b981",
+          "items": [
+            { "path": "packages/ui", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border",
+          "borderWidth": 3
+        },
+        {
+          "id": "package-views",
+          "name": "@multica/views (business pages)",
+          "color": "#f59e0b",
+          "items": [
+            { "path": "packages/views", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border",
+          "borderWidth": 3
+        },
+        {
+          "id": "package-tsconfig",
+          "name": "@multica/tsconfig",
+          "color": "#6b7280",
+          "items": [
+            { "path": "packages/tsconfig", "type": "directory" }
+          ],
+          "opacity": 0.5,
+          "renderStrategy": "border",
+          "borderWidth": 2
+        }
+      ]
+    },
+    {
+      "id": "step-3-core-package",
+      "title": "@multica/core — Headless Business Logic",
+      "description": "The core package holds all domain types, the API client, query and mutation definitions, client-side stores, and real-time sync. It has no direct ties to the DOM, browser storage, or environment variables — anything platform-specific is injected at startup. This is what lets the same logic run on web, desktop, and mobile.",
+      "estimatedTime": 120,
+      "focusDirectory": "packages/core",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "core-domains",
+          "name": "Domain Modules",
+          "color": "#3b82f6",
+          "items": [
+            { "path": "packages/core/issues", "type": "directory" },
+            { "path": "packages/core/inbox", "type": "directory" },
+            { "path": "packages/core/runtimes", "type": "directory" },
+            { "path": "packages/core/projects", "type": "directory" },
+            { "path": "packages/core/workspace", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "core-infrastructure",
+          "name": "Infrastructure",
+          "color": "#a855f7",
+          "items": [
+            { "path": "packages/core/api", "type": "directory" },
+            { "path": "packages/core/auth", "type": "directory" },
+            { "path": "packages/core/realtime", "type": "directory" },
+            { "path": "packages/core/types", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "fill"
+        }
+      ],
+      "interactiveActions": [
+        {
+          "type": "explore",
+          "description": "Open the issues domain to see the queries, mutations, and store pattern repeated across every domain"
+        }
+      ]
+    },
+    {
+      "id": "step-4-ui-and-views",
+      "title": "@multica/ui & @multica/views",
+      "description": "The ui package holds shadcn primitives and pure-props common components — no business logic. The views package builds on top of both ui and core to deliver complete pages: the issue board, editor, modals, runtimes, and skills. Views routes through a navigation adapter so it can run inside any framework, not just Next.js.",
+      "estimatedTime": 90,
+      "focusDirectory": "packages",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "ui-primitives",
+          "name": "shadcn primitives",
+          "color": "#10b981",
+          "items": [
+            { "path": "packages/ui/components", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "views-domain-pages",
+          "name": "Domain Pages",
+          "color": "#f59e0b",
+          "items": [
+            { "path": "packages/views/issues", "type": "directory" },
+            { "path": "packages/views/editor", "type": "directory" },
+            { "path": "packages/views/modals", "type": "directory" },
+            { "path": "packages/views/runtimes", "type": "directory" },
+            { "path": "packages/views/skills", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "navigation-adapter",
+          "name": "Navigation Adapter",
+          "color": "#ef4444",
+          "items": [
+            { "path": "packages/views/navigation", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "border",
+          "borderWidth": 3
+        }
+      ]
+    },
+    {
+      "id": "step-5-web-app",
+      "title": "The Next.js Web Shell",
+      "description": "The web app is intentionally thin. Route shells are tiny — each one simply imports its corresponding page from the shared views package. The platform bridge is the only place that touches Next.js APIs, browser globals, and environment variables, and it wires up the API client, stores, navigation, and storage. Each future client provides its own bridge.",
+      "estimatedTime": 120,
+      "focusDirectory": "apps/web",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "platform-bridge",
+          "name": "Platform Bridge",
+          "color": "#ef4444",
+          "items": [
+            { "path": "apps/web/platform", "type": "directory" }
+          ],
+          "opacity": 0.75,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "route-shells",
+          "name": "Route Shells",
+          "color": "#3b82f6",
+          "items": [
+            { "path": "apps/web/app", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border",
+          "borderWidth": 3
+        },
+        {
+          "id": "web-features",
+          "name": "Web-Only Features",
+          "color": "#f59e0b",
+          "items": [
+            { "path": "apps/web/features", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border",
+          "borderWidth": 2
+        }
+      ],
+      "interactiveActions": [
+        {
+          "type": "hover-directory",
+          "description": "Hover the platform bridge — the only place that talks to Next.js or the browser",
+          "target": "apps/web/platform"
+        }
+      ]
+    },
+    {
+      "id": "step-6-go-backend",
+      "title": "Go Backend — Entry Points & Handlers",
+      "description": "The Go backend has three entry points: the HTTP API, the command-line tool, and the migration runner. Handlers are grouped one per domain — issues, comments, agents, auth, and the daemon — and each handler wires together database access, the real-time hub, and the task service. A central router stitches everything together.",
+      "estimatedTime": 120,
+      "focusDirectory": "server",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "entry-points",
+          "name": "Entry Points",
+          "color": "#8b5cf6",
+          "items": [
+            { "path": "server/cmd/server", "type": "directory" },
+            { "path": "server/cmd/multica", "type": "directory" },
+            { "path": "server/cmd/migrate", "type": "directory" }
+          ],
+          "opacity": 0.75,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "http-handlers",
+          "name": "HTTP Handlers",
+          "color": "#3b82f6",
+          "items": [
+            { "path": "server/internal/handler", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "auth-middleware",
+          "name": "Auth & Middleware",
+          "color": "#ef4444",
+          "items": [
+            { "path": "server/internal/auth", "type": "directory" },
+            { "path": "server/internal/middleware", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "fill"
+        }
+      ]
+    },
+    {
+      "id": "step-7-realtime-and-agents",
+      "title": "Real-Time, Task Service & Agent SDK",
+      "description": "Three subsystems power the AI-native experience. The real-time hub broadcasts events over WebSockets to keep every client in sync. The task service orchestrates agent work — enqueue, claim, start, then complete or fail — and keeps issue status aligned. The agent SDK provides a unified interface that can spawn either Claude Code or Codex, and the local daemon polls for tasks and routes them to the right backend.",
+      "estimatedTime": 150,
+      "focusDirectory": "server",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "realtime-hub",
+          "name": "WebSocket Hub",
+          "color": "#10b981",
+          "items": [
+            { "path": "server/internal/realtime", "type": "directory" }
+          ],
+          "opacity": 0.75,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "task-service",
+          "name": "Task & Event Services",
+          "color": "#f59e0b",
+          "items": [
+            { "path": "server/internal/service", "type": "directory" },
+            { "path": "server/internal/events", "type": "directory" }
+          ],
+          "opacity": 0.75,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "agent-sdk",
+          "name": "Agent SDK (Claude / Codex)",
+          "color": "#a855f7",
+          "items": [
+            { "path": "server/pkg/agent", "type": "directory" }
+          ],
+          "opacity": 0.75,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "daemon",
+          "name": "Local Daemon",
+          "color": "#ec4899",
+          "items": [
+            { "path": "server/internal/daemon", "type": "directory" }
+          ],
+          "opacity": 0.75,
+          "renderStrategy": "fill"
+        }
+      ]
+    },
+    {
+      "id": "step-8-database-layer",
+      "title": "Database — Queries, Migrations & pgvector",
+      "description": "Multica runs on PostgreSQL with the pgvector extension. Hand-written SQL queries are turned into type-safe Go code by a code generator, and schema changes flow through versioned migrations. Every query filters by workspace, which is how multi-tenancy is enforced across the entire system.",
+      "estimatedTime": 90,
+      "focusDirectory": "server",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "sqlc-queries",
+          "name": "Queries & Generated Code",
+          "color": "#3b82f6",
+          "items": [
+            { "path": "server/pkg/db", "type": "directory" }
+          ],
+          "opacity": 0.75,
+          "renderStrategy": "fill"
+        },
+        {
+          "id": "migrations",
+          "name": "Schema Migrations",
+          "color": "#f59e0b",
+          "items": [
+            { "path": "server/migrations", "type": "directory" }
+          ],
+          "opacity": 0.75,
+          "renderStrategy": "fill"
+        }
+      ]
+    },
+    {
+      "id": "step-9-tests-and-tooling",
+      "title": "Testing, E2E & Build Tooling",
+      "description": "End-to-end coverage runs through Playwright, the TypeScript side uses Vitest for unit tests, and Go uses its standard test runner. Turborepo orchestrates the frontend pipeline, and a single make target runs the full verification loop — typecheck, unit tests, Go tests, and end-to-end — so any change can be validated with one command.",
+      "estimatedTime": 90,
+      "focusDirectory": "",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "e2e-tests",
+          "name": "E2E Tests (Playwright)",
+          "color": "#10b981",
+          "items": [
+            { "path": "e2e", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "border",
+          "borderWidth": 3
+        },
+        {
+          "id": "build-config",
+          "name": "Build & Tooling Config",
+          "color": "#a855f7",
+          "items": [
+            { "path": "Makefile", "type": "file" },
+            { "path": "turbo.json", "type": "file" },
+            { "path": "pnpm-workspace.yaml", "type": "file" },
+            { "path": "playwright.config.ts", "type": "file" },
+            { "path": "docker-compose.yml", "type": "file" }
+          ],
+          "opacity": 0.8,
+          "renderStrategy": "fill"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Contributing Guide",
+          "url": "CONTRIBUTING.md",
+          "type": "documentation"
+        },
+        {
+          "title": "Self-Hosting Guide",
+          "url": "SELF_HOSTING.md",
+          "type": "documentation"
+        }
+      ]
+    },
+    {
+      "id": "step-10-wrap-up",
+      "title": "Wrap Up — Where to Go Next",
+      "description": "You've now seen the full Multica codebase: the shared headless packages, the web app, the Go backend, the real-time and agent runtime, and the database. Three things to remember: business logic is platform-agnostic, the web app's bridge is the only place that knows about Next.js, and agents are first-class actors orchestrated by the task service. Pick a feature you care about and dive in — the same patterns repeat across every domain.",
+      "estimatedTime": 60,
+      "focusDirectory": "",
+      "colorMode": "fileTypes",
+      "resources": [
+        {
+          "title": "CLAUDE.md — Architecture deep dive",
+          "url": "CLAUDE.md",
+          "type": "documentation"
+        },
+        {
+          "title": "AGENTS.md",
+          "url": "AGENTS.md",
+          "type": "documentation"
+        },
+        {
+          "title": "CLI & Daemon Guide",
+          "url": "CLI_AND_DAEMON.md",
+          "type": "documentation"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "author": "Claude Code",
+    "createdAt": "2026-04-09",
+    "tags": [
+      "onboarding",
+      "architecture",
+      "monorepo",
+      "go",
+      "nextjs",
+      "ai-agents"
+    ]
+  }
+}
